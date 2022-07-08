@@ -34,5 +34,4 @@ docker-stop-postgres:
 
 .PHONY: jupyter
 jupyter:
-	@export PYTHONPATH=$(PROJECT_DIR)src/
-	@$(PYTHON) -m jupyter notebook --no-browser --notebook-dir=src/
+	export PYTHONPATH=$(PROJECT_DIR)src && $(PYTHON) -m jupyter notebook --no-browser --notebook-dir=src/

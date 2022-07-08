@@ -68,7 +68,7 @@ def execute_single(connection: psycopg2_utils.Connection, users: collections_abc
 def executemany(connection: psycopg2_utils.Connection, users: collections_abc.Iterator[User]) -> None:
     with connection.cursor() as cursor:
         stmt = "INSERT INTO users (name, description) VALUES (%s, %s)"
-        data = [(user.name, user.description) for user in users]
+        data = ((user.name, user.description) for user in users)
         cursor.executemany(stmt, data)
     connection.commit()
 
@@ -98,7 +98,7 @@ def executemany_chunks(connection: psycopg2_utils.Connection, users: collections
     stmt = "INSERT INTO users (name, description) VALUES (%s, %s)"
     with connection.cursor() as cursor:
         for user_chunk in more_itertools.ichunked(users, CHUNK_SIZE):
-            data = [(user.name, user.description) for user in user_chunk]
+            data = ((user.name, user.description) for user in user_chunk)
             cursor.executemany(stmt, data)
             connection.commit()
 
